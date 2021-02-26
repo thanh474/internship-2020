@@ -2,7 +2,10 @@
 
 ## Nhiệm vụ của keystone.
 
+Cung cấp dịch vụ xác thực cho toàn bộ hạ tầng OpenStack
 
+- Theo dõi người dùng và quyền hạn của họ
+- Cung cấp một catalog của các dịch vụ đang sẵn sàng với các API endpoints để truy cập các dịch vụ đó
 
 ## 2. Chức năng của keystone.
 Keystone có 3 chức năng chính.
