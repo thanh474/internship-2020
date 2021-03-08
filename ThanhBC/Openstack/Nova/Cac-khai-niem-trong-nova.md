@@ -67,16 +67,30 @@ OpenStack hỗ trợ 2 kiểu migration đó là:
 - Trên source, khởi tạo tiến trình migration.
 - Khi tiến trình hoàn tất, tái sinh file Libvirt XML và define nó trên destination.
 
-\- Dưới đây minh họa cho quá trình  pre-copy live migrate VM:  
-![](novaimg/migration-2.png)
 
-![](novaimg/migration-3.png)
+## 2.1.3 Live migrate workflow.
 
-![](novaimg/migration-4.png)
+Việc migrate của máy ảo đưọc chia làm 3 giai đoạn: Running state( bao gòm dữ liệu bộ nhớ, trạn thái cpu và các tráng thái thiết bị kết nối ngoài), storage data( dũ liệu trong disk.)và cuối cùng là network kết nối giữa VM và người sử dụng.
 
-![](novaimg/migration-5.png)
+Live migrate sẽ xử lý từng thành phần của cấc phần để gửi các phần từ host nguồn đến host đích.
 
-![](novaimg/migration-6.png)
+1. Memory data migration. Để tránh làm gián đoạn các dịch vụ đang chạy trong máy ảo được di chuyển, tất cả các trạng thái thời gian thực của máy ảo phải được chuyển sang máy chủ mới. Những dữ liệu này chứa trạng thái CPU, dữ liệu bộ nhớ, dữ liệu đệm của các thiết bị bên ngoài, v.v.
+Nói chung, việc chuyển các trạng thái đang chạy được gọi là quá trình di chuyển dữ liệu bộ nhớ. 
+
+    Có 3 kiểu thực thiện quá trình này.
+![](novaimg/memory-type.png)
+
+2. Storage data migration. Nó là để di chuyển hình ảnh đĩa của một máy ảo đến vị trí mới. Tác vụ này là cần thiết khi máy chủ nguồn và máy chủ đích không chia sẻ vùng lưu trữ.
+
+    Kết hợp với quá trình mirgate data memory ta có các kiểu migrate storage data như sau.
+![](novaimg/storage-type.png)
+
+
+3. Network connection continuity. Sau khi máy ảo được chuyển đến vị trí mới, cần có chiến lược để chuyển hướng kết nối mạng của người dùng đến vị trí mới.
+
+
+Dưới đây là tổng quan quá trình live migrate từ host A sang host B theo 2 kiểu  khác nhau.
+
 
 ![](novaimg/pre-copy.png)
 
@@ -85,7 +99,7 @@ Dưới đây là hình minh họa cho quá trình post-copy live migration proc
 ![](novaimg/post-copy.png)
 
 
-## 2.1.3. So sánh ưu nhược điểm giữa cold và live migrate
+## 2.1.4. So sánh ưu nhược điểm giữa cold và live migrate
 \- Cold migrate  
 - Ưu điểm:
   - Đơn giản, dễ thực hiện
@@ -113,7 +127,7 @@ Dưới đây là hình minh họa cho quá trình post-copy live migration proc
 - Nếu bạn buộc phải chọn host và giảm tối da thời gian downtime của server thì bạn nên chọn live-migrate (tùy vào loại storage sử dụng mà chọn true hoặc block migration)
 - Nếu bạn không muốn chọn host hoặc đã kích hoạt config drive (một dạng ổ lưu trữ metadata của máy ảo, thường được dùng để cung cấp cấu hình network khi không sử dụng DHCP) thì hãy lựa chọn cold migrate.
 
-## 3 Tìm hiểu resize trong Openstack.
+## 3. Tìm hiểu resize trong Openstack.
 Resize là kỹ thuật thay đổi kích thước các instance bằng cách thay đổi flavor của instance đó.
 
 Câu lệnh sử dụng để resize là
@@ -132,7 +146,7 @@ Nếu resize không hoạt động thì ta có thể  làm kỹ thuật revert  
 openstack server resize revert <Ten_instance>
 ```
 
-## 4 Tìm hiểu kỹ thuật rescure.
+## 4. Tìm hiểu kỹ thuật rescure.
 
 OpenStack compute cung cấp một công cụ khắc phục sự cố tiện dụng rescure. Nếu người dùng mất khóa SSH hoặc không thể khởi động và truy cập một instance , chẳng hạn như cài đặt IPTABLES không hợp lệ hoặc cấu hình mạng không thành công, chế độ rescure sẽ bắt đầu một phiên bản tối thiểu và đính kèm đĩa từ phiên bản bị lỗi để hỗ trợ khôi phục. 
 
@@ -186,3 +200,16 @@ Workflow khi evacuate máy ảo:
 14. Trạng thái của máy ảo bắt đầu được chuyển thành REBUILD_SPAWNING.
 15. Cùng lúc đó, nova compute yêu cầu nova compute driver spawn máy ảo với những thông tin đã có sẵn
 16. Trạng thái của máy ảo chuyển thành ACTIVE
+
+
+Tài liệu tham khảo: 
+
+
+
+1. https://core.ac.uk/download/pdf/159486365.pdf
+
+2. https://docs.openstack.org/nova/latest/user/rescue.html
+
+3. https://github.com/meditechopen/meditech-ghichep-openstack/blob/master/docs/100.Advanced/evacuate.md
+
+4. https://www.datadoghq.com/blog/openstack-host-aggregates-flavors-availability-zones/
