@@ -62,7 +62,7 @@ yum install openstack-nova-api openstack-nova-conductor \
   openstack-nova-novncproxy openstack-nova-scheduler
 ```
 
-6. Cấu hình các thông số trong file cấu hình nova.
+6. Cấu hình các thông số trong file cấu hình nova.` vim /etc/nova/nova.conf`
 
 ```
 [DEFAULT]
@@ -125,3 +125,52 @@ auth_url = http://controller:5000/v3
 username = placement
 password = thanhbc_pl
 ```
+
+7. Upload dữ liệu từ file cấu hình vào database.
+
+
+```
+su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
+
+su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
+
+su -s /bin/sh -c "nova-manage db sync" nova
+```
+
+Kiểm tra trong database đã lưu các cell chưa.
+```
+su -s /bin/sh -c "nova-manage cell_v2 list_cells" nova
+```
+
+![](nv-img/cell-database.png)
+
+8. Khởi động và bật các service nova chạy cùng hệ thống.
+
+```
+# systemctl enable \
+    openstack-nova-api.service \
+    openstack-nova-scheduler.service \
+    openstack-nova-conductor.service \
+    openstack-nova-novncproxy.service
+# systemctl start \
+    openstack-nova-api.service \
+    openstack-nova-scheduler.service \
+    openstack-nova-conductor.service \
+    openstack-nova-novncproxy.service
+```
+
+Kiểm tra các service đã hoạt động chưa.
+```
+systemctl status \
+    openstack-nova-api.service \
+    openstack-nova-scheduler.service \
+    openstack-nova-conductor.service \
+    openstack-nova-novncproxy.service
+```
+
+![](nv-img/nova-service-1.png)
+
+![](nv-img/nova-service-2.png)
+
+Như vậy là ta đã thành công nova project.
+
