@@ -17,7 +17,7 @@ yum install vim wget -y
 ```
 Sửa tên host.
 ```
-echo "192.168.122.248   controller" >> /etc/hosts
+echo "10.5.10.198   controller" >> /etc/hosts
 ```
 ### 2.2 Cấu hình chrony đồng bộ thời gian.
 Cài đặt theo các câu lệnh sau 
@@ -51,7 +51,7 @@ yum install mariadb mariadb-server python2-PyMySQL -y
 Tạo và cấu hình mysqld trong file `etc/my.cnf.d/openstack.cnf`
 ```
 [mysqld]
-bind-address = 192.168.122.74
+bind-address = 10.5.10.198
 
 default-storage-engine = innodb
 innodb_file_per_table = on
@@ -81,7 +81,7 @@ yum update -y
 
 yum install epel-release -y
 
-yum install gcc gcc-c++ glibc-devel make ncurses-devel openssl-devel autoconf java-1.8.0-openjdk-devel git wget wxBase.x86_64
+yum install gcc gcc-c++ glibc-devel make ncurses-devel openssl-devel autoconf java-1.8.0-openjdk-devel git wget wxBase.x86_64 -y
 ```
 
 Cài đặt Erlang
@@ -176,13 +176,13 @@ Mở file `/etc/etcd/etcd.conf` và cấu hình các thông số sau.
 ```
 #[Member]
 ETCD_DATA_DIR="/var/lib/etcd/default.etcd"
-ETCD_LISTEN_PEER_URLS="http://192.168.122.74:2380"
-ETCD_LISTEN_CLIENT_URLS="http://192.168.122.74:2379"
+ETCD_LISTEN_PEER_URLS="http://10.5.10.198:2380"
+ETCD_LISTEN_CLIENT_URLS="http://10.5.10.198:2379"
 ETCD_NAME="controller"
 #[Clustering]
-ETCD_INITIAL_ADVERTISE_PEER_URLS="http://192.168.122.74:2380"
-ETCD_ADVERTISE_CLIENT_URLS="http://192.168.122.74:2379"
-ETCD_INITIAL_CLUSTER="controller=http://192.168.122.74:2380"
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://10.5.10.198:2380"
+ETCD_ADVERTISE_CLIENT_URLS="http://10.5.10.198:2379"
+ETCD_INITIAL_CLUSTER="controller=http://10.5.10.198:2380"
 ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster-01"
 ETCD_INITIAL_CLUSTER_STATE="new"
 ```

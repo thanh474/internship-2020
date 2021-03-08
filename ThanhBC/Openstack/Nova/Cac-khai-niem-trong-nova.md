@@ -114,6 +114,7 @@ Dưới đây là hình minh họa cho quá trình post-copy live migration proc
   - Có thể chọn host muốn migrate
   - Tiết kiệm chi phí, tăng sự linh hoạt trong khâu quản lí và vận hành.
   - Giảm thời gian downtime và gia tăng thêm khả năng "cứu hộ" khi gặp sự cố
+    ![](novaimg/downtime.png)
 - Nhược điểm:
   - Dù chọn được host nhưng vẫn có những giới hạn nhất định
   - Quá trình migrate có thể fails nếu host bạn chọn không có đủ tài nguyên.
@@ -213,3 +214,5 @@ Tài liệu tham khảo:
 3. https://github.com/meditechopen/meditech-ghichep-openstack/blob/master/docs/100.Advanced/evacuate.md
 
 4. https://www.datadoghq.com/blog/openstack-host-aggregates-flavors-availability-zones/
+
+5. https://blog.zhaw.ch/icclab/an-analysis-of-the-performance-of-live-migration-in-openstack/ 

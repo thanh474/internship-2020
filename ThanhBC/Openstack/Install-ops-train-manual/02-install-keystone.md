@@ -28,14 +28,6 @@ Cài đặt repo của openstack train version
 yum install centos-release-openstack-train -y
 yum install openstack-keystone httpd mod_wsgi -y 
 ```
-Keystone dc viết bằng python nên ta cài đặt python và openstack-client.
-```
-yum install gcc python python-devel python2-pip -y
-pip install python-openstackclient
-pip install --ignore-installed PyYAML
-pip install --upgrade "pip < 21.0"
-curl https://bootstrap.pypa.io/2.7/get-pip.py --output get-pip.py | 
-```
 
 sử dung `vim` để mở file`/etc/keystone/keystone.conf` và sửa  theo các dòng như sau.
 ```
@@ -68,6 +60,14 @@ keystone-manage bootstrap --bootstrap-password admin \
   --bootstrap-region-id RegionOne
 ```
 
+Keystone dc viết bằng python nên ta cài đặt python và openstack-client.
+```
+yum install gcc python python-devel python2-pip -y
+curl https://bootstrap.pypa.io/2.7/get-pip.py --output get-pip.py 
+pip install --upgrade "pip < 21.0"
+pip install --ignore-installed PyYAML
+pip install python-openstackclient
+```
 ## 2.Cấu hình http server.
 
 Cấu hình file `/etc/httpd/conf/httpd.conf` và sửa các thông số sau.
@@ -119,5 +119,9 @@ chown -R keystone:keystone /etc/keystone/
 ```
 
 Khởi động lại http và kiểm tra lại kết quả.
+
+Tiếp theo ta thêm user, group, domain, và project trong keystone.
+
+
 
 
