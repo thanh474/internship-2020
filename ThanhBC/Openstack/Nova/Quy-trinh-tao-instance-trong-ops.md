@@ -1,4 +1,8 @@
-# Quá trình khởi tạo máy ảo trong Nova
+# Các luồng hoạt động trong nova.
+
+
+## 1. Quá trình khởi taọ máy ảo của nova.
+
 
 ![](novaimg/nova-cre-ins1.png)
 
@@ -43,3 +47,28 @@ Workflow khi khởi tạo máy ảo:
 17. Nova-compute sẽ generate dữ liệu cho Hypervisor và gửi thông tin thông qua libvirt.
 
 
+# 2. Luồng khởi tạo và quản lý vnc của nova
+
+Proxy VNC là một thành phần OpenStack cho phép người dùng dịch vụ máy tính truy cập các máy ảo của họ thông qua các máy khách VNC.
+
+Kết nối bảng điều khiển VNC hoạt động như sau:
+
+- Một người dùng kết nối với API và nhận được một cái access_urlchẳng hạn như `http://ip:port/?token=xyz`
+
+- Người dùng dán URL vào trình duyệt hoặc sử dụng nó làm thông số máy khách.
+
+- Trình duyệt hoặc ứng dụng khách kết nối với proxy.
+
+- Proxy nói chuyện để nova-consoleauthcấp phép mã thông báo cho người dùng và ánh xạ mã thông báo tới máy chủ riêng và cổng của máy chủ VNC chẳng hạn.
+
+- Máy chủ tính toán chỉ định địa chỉ mà proxy sẽ sử dụng để kết nối thông qua nova.conftùy chọn tệp server_proxyclient_address,. Theo cách này, proxy VNC hoạt động như một cầu nối giữa mạng công cộng và mạng máy chủ riêng.
+
+- Proxy bắt đầu kết nối với máy chủ VNC và tiếp tục proxy cho đến khi phiên kết thúc.
+
+Proxy cũng tạo đường hầm cho giao thức VNC qua WebSockets để noVNC máy khách có thể nói chuyện với máy chủ VNC. Nói chung, proxy VNC:
+
+- Cầu nối giữa mạng công cộng nơi khách hàng sống và mạng riêng nơi đặt máy chủ VNC.
+- Dàn xếp xác thực mã thông báo.
+- Rõ ràng giải quyết các chi tiết kết nối cụ thể dành cho hypervisor để cung cấp trải nghiệm khách hàng đồng nhất.
+
+![](novaimg/vnc-flow.png)
