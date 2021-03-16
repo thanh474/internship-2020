@@ -24,7 +24,7 @@ export OS_AUTH_URL=http://controller:5000/v3
 export OS_IDENTITY_API_VERSION=3
 ```
 
-3. Tạo user glance
+3. Tạo user glance với password là `thanhbc_gl`
 ```
 openstack user create --domain default --password-prompt glance
 ```
@@ -32,6 +32,7 @@ Gán role admin vào user glance và service project.
 ```
 openstack role add --project service --user glance admin
 ```
+
 
 Tạo glance service entity
 ```
@@ -79,7 +80,7 @@ project_domain_name = Default
 user_domain_name = Default
 project_name = service
 username = glance
-password = thanhbc_glance
+password = thanhbc_gl
 
 [paste_deploy]
 # ...
@@ -115,3 +116,27 @@ systemctl status openstack-glance-api.service
 
 Như vậy là ta đã cấu hình thành công glance project.
 
+9. Kiểm tra bằng cách tạo một image.
+
+Tải file source image cirros.
+```
+wget http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img
+```
+Upload images lên glance service.
+```
+glance image-create --name "cirros" \
+  --file cirros-0.4.0-x86_64-disk.img \
+  --disk-format qcow2 --container-format bare \
+  --visibility public
+```
+![](gl-img/gl-image.png)
+
+
+Kiểm tra image tron glance service.
+```
+glance image-list
+```
+
+![](gl-img/gl-list.png)
+
+Như vậy là ta đã cấu hình xong glance project.

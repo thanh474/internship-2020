@@ -3,10 +3,10 @@
 1. Cài đặt gói horizone project.
 
 ```
-yum install openstack-dashboard
+yum install openstack-dashboard -y
 ```
 
-2. Chỉnh sửa file cấu hình của horizone
+2. Chỉnh sửa file cấu hình của horizone `vim /etc/openstack-dashboard/local_settings`
 
 ```
 OPENSTACK_HOST = "controller"

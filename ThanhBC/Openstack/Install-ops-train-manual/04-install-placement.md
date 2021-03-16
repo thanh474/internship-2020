@@ -15,7 +15,7 @@ GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'%' \
   IDENTIFIED BY 'thanhbc_pldb';
 
 ```
-2. Tạo user cho service placement.
+2. Tạo user cho service placement với password `thanhbc_pl`.
 
 ```
 openstack user create --domain default --password-prompt placement
@@ -55,7 +55,7 @@ openstack endpoint create --region RegionOne \
 
 5. Cài đặt gói placement api
 ```
-yum install openstack-placement-api
+yum install openstack-placement-api -y
 ```
 Chỉnh sửa file cấu hình placement `vim /etc/placement/placement.conf`
 ```
@@ -84,3 +84,10 @@ password = thanhbc_pl
 ```
 su -s /bin/sh -c "placement-manage db sync" placement
 ```
+
+7. Khởi động lại http và kiểm tra kết quả.
+
+```
+systemctl restart httpd
+```
+

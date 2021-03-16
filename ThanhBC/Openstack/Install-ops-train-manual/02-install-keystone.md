@@ -11,25 +11,25 @@ Password được cài đặt từ ban đâu ở đây là `admin`
 
 Tạo database `keystone`
 ```
-MariaDB [(none)]> CREATE DATABASE keystone;
+CREATE DATABASE keystone;
 ```
 Gán quyền truy cập vào `keystone`.
 ```
-MariaDB [(none)]> GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
 IDENTIFIED BY 'thanhbc_ksdb';
-MariaDB [(none)]> GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' \
+
+GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'%' \
 IDENTIFIED BY 'thanhbc_ksdb';
 ```
 
 Thoát database và cài đặt gói openstack-keystone.
 
-Cài đặt repo của openstack train version
+## 2. Cài đặt repo của openstack train version
 ```
-yum install centos-release-openstack-train -y
 yum install openstack-keystone httpd mod_wsgi -y 
 ```
 
-sử dung `vim` để mở file`/etc/keystone/keystone.conf` và sửa  theo các dòng như sau.
+Sử dung `vim` để mở file`/etc/keystone/keystone.conf` và sửa  theo các dòng như sau.
 ```
 [database]
 # ...
@@ -47,6 +47,7 @@ su -s /bin/sh -c "keystone-manage db_sync" keystone
 Tiếp theo ta  khởi tạo khóa Fernet.
 ```
 keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
+
 keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
 ```
 
@@ -60,15 +61,7 @@ keystone-manage bootstrap --bootstrap-password admin \
   --bootstrap-region-id RegionOne
 ```
 
-Keystone dc viết bằng python nên ta cài đặt python và openstack-client.
-```
-yum install gcc python python-devel python2-pip -y
-curl https://bootstrap.pypa.io/2.7/get-pip.py --output get-pip.py 
-pip install --upgrade "pip < 21.0"
-pip install --ignore-installed PyYAML
-pip install python-openstackclient
-```
-## 2.Cấu hình http server.
+## 3.Cấu hình http server.
 
 Cấu hình file `/etc/httpd/conf/httpd.conf` và sửa các thông số sau.
 ```
@@ -80,7 +73,7 @@ Tạo link thư mục `/usr/share/keystone/wsgi-keystone.conf`
 ln -s /usr/share/keystone/wsgi-keystone.conf /etc/httpd/conf.d/
 ```
 
-### 3 Kiểm tra cài đặt.
+### 4 Kiểm tra cài đặt.
 
 Tiến hành khởi động và enable httpd 
 ```
@@ -106,22 +99,39 @@ export OS_IDENTITY_API_VERSION=3
 Sau đó sử dụng lệnh `openstack token issue`. 
 
 Nếu trả về kết qủa như sau thì đã thành công.
-![](ks-img/token-issue.png).
+![](ks-img/token-issue.png)
 
-Nếu kết quả trả về là đoạn code.
-```
-Internal Server Edbrror (HTTP 500)
-```
 
-Thì ta cần phân quyền cho keystone bằng lệnh.
-```
-chown -R keystone:keystone /etc/keystone/
-```
 
-Khởi động lại http và kiểm tra lại kết quả.
+## 5. Add user, project, domain.
 
 Tiếp theo ta thêm user, group, domain, và project trong keystone.
 
+Thêm domain example
+```
+openstack domain create --description "An Example Domain" example
+```
+Tạo mới project service, myproject.
+```
+openstack project create --domain default --description "Service Project" service
+openstack project create --domain default --description "Demo Project" myproject
+```
 
 
+Tạo mới user.
+```
+openstack user create --domain default --password-prompt myuser
+```
+
+Tạo mới role 
+```
+openstack role create myrole
+```
+
+Add role mới tạo vào project và user.
+```
+openstack role add --project myproject --user myuser myrole
+```
+
+Vậy là chúng ta đã cấu hình xong phần keystone.
 

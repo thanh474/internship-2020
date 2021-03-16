@@ -42,9 +42,27 @@ chronyc sources
 ```
 ![](ks-img/chrony-1.png)
 
-## 2.3 Cài đặt SQL database.
 
-Cài đătj mariadb để sử dụng cho openstack bằng câu lệnh sau.
+## 2.3 Cài đặt Openstack packages.
+
+Sử dụng câu lệnh sau để cài packages ops train
+```
+yum install centos-release-openstack-train -y
+```
+Update system
+```
+yum upgrade -y 
+```
+
+Cài đặt openstack client cho train
+```
+yum install python-openstackclient -y
+```
+
+
+## 2.4 Cài đặt SQL database.
+
+Cài đặt mariadb để sử dụng cho openstack bằng câu lệnh sau.
 ```
 yum install mariadb mariadb-server python2-PyMySQL -y
 ```
@@ -72,7 +90,7 @@ mysql_secure_installation
 Sau đó đọc và làm theo các bước.
 ![](ks-img/mariadb-1.png)
 
-### 2.4 Cài đặt message queue 
+### 2.5 Cài đặt message queue 
 
 Messague sử dụng ở đây là RabbitMQ.
 Trước khi cài đặt RabbitMQ ta phải cài đặt ngôn ngũ Erlang vì đây là ngôn ngữ lấp trình lên Rabbit.
@@ -91,6 +109,7 @@ wget http://packages.erlang-solutions.com/erlang-solutions-1.0-1.noarch.rpm
 rpm -Uvh erlang-solutions-1.0-1.noarch.rpm
 
 yum install erlang -y
+
 ```
 Kiểm tra đã cài đặt thành công chưa ta sử dụng lệnh `erl`.
 
@@ -121,6 +140,7 @@ Kiểm tra trạng thái của RabbitMQ bằng lệnh `rabbitmqctl status`
 Cho phép người dùng truy cập thông qua web. Để enable RabbitMQ management console, chạy dòng lệnh 
 ```
 rabbitmq-plugins enable rabbitmq_management
+
 chown -R rabbitmq:rabbitmq /var/lib/rabbitmq/
 ```
 Khởi động lại rabbitmq

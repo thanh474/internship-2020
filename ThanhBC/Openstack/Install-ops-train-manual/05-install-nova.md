@@ -27,7 +27,7 @@ GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' \
 ```
 
 
-2. Tạo user nova cho compute service.
+2. Tạo user nova cho compute service với passwork `thanhbc_nv`
 
 ```
 openstack user create --domain default --password-prompt nova
@@ -55,11 +55,10 @@ openstack endpoint create --region RegionOne \
   compute admin http://controller:8774/v2.1
 
 ```
-
+![](nv-img/nv-endpoint.png)
 5. Cài đặt các gói cho nova project.
 ```
-yum install openstack-nova-api openstack-nova-conductor \
-  openstack-nova-novncproxy openstack-nova-scheduler
+yum install openstack-nova-api openstack-nova-conductor openstack-nova-novncproxy openstack-nova-scheduler openstack-nova-compute -y
 ```
 
 6. Cấu hình các thông số trong file cấu hình nova.` vim /etc/nova/nova.conf`
@@ -96,7 +95,7 @@ project_domain_name = Default
 user_domain_name = Default
 project_name = service
 username = nova
-password = thanhbc_nova
+password = thanhbc_nv
 
 [vnc]
 enabled = true
@@ -124,12 +123,19 @@ user_domain_name = Default
 auth_url = http://controller:5000/v3
 username = placement
 password = thanhbc_pl
+
+[libvirt]
+# ...
+virt_type = qemu
+
 ```
 
 7. Upload dữ liệu từ file cấu hình vào database.
 
 
 ```
+su -s /bin/sh -c "nova-manage api_db sync" nova
+
 su -s /bin/sh -c "nova-manage cell_v2 map_cell0" nova
 
 su -s /bin/sh -c "nova-manage cell_v2 create_cell --name=cell1 --verbose" nova
@@ -147,16 +153,19 @@ su -s /bin/sh -c "nova-manage cell_v2 list_cells" nova
 8. Khởi động và bật các service nova chạy cùng hệ thống.
 
 ```
-# systemctl enable \
+systemctl enable \
     openstack-nova-api.service \
     openstack-nova-scheduler.service \
     openstack-nova-conductor.service \
     openstack-nova-novncproxy.service
-# systemctl start \
+systemctl start \
     openstack-nova-api.service \
     openstack-nova-scheduler.service \
     openstack-nova-conductor.service \
     openstack-nova-novncproxy.service
+
+systemctl enable libvirtd.service openstack-nova-compute.service
+systemctl start libvirtd.service openstack-nova-compute.service
 ```
 
 Kiểm tra các service đã hoạt động chưa.
@@ -166,11 +175,17 @@ systemctl status \
     openstack-nova-scheduler.service \
     openstack-nova-conductor.service \
     openstack-nova-novncproxy.service
+systemctl status libvirtd.service openstack-nova-compute.service
 ```
 
 ![](nv-img/nova-service-1.png)
 
 ![](nv-img/nova-service-2.png)
+
+
+Kiểm tra service trong nova-compute.
+
+![](nv-img/nv-service-compute.png)
 
 Như vậy là ta đã thành công nova project.
 
