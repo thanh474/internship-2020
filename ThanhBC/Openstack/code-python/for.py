@@ -8,7 +8,7 @@ payload ={ "auth": {
             "user": {
               "name": "admin",
               "domain": { "name": "Default" },
-              "password": "admin11"
+              "password": "admin"
             }
           }
         },
@@ -31,6 +31,4 @@ while i < 170000:
   res = requests.post('http://192.168.122.3:5000/v3/auth/token',
 					headers = {'content-type' : 'application/json'},
 					data= json.dumps(payload));
-  
-
   i += 1

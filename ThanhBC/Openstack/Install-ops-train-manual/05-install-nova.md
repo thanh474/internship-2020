@@ -158,11 +158,12 @@ systemctl enable \
     openstack-nova-scheduler.service \
     openstack-nova-conductor.service \
     openstack-nova-novncproxy.service
-systemctl start \
+systemctl restart \
     openstack-nova-api.service \
     openstack-nova-scheduler.service \
     openstack-nova-conductor.service \
-    openstack-nova-novncproxy.service
+    openstack-nova-novncproxy.service \
+    libvirtd.service openstack-nova-compute.service
 
 systemctl enable libvirtd.service openstack-nova-compute.service
 systemctl start libvirtd.service openstack-nova-compute.service

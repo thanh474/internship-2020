@@ -201,7 +201,7 @@ systemctl enable neutron-server.service \
   neutron-linuxbridge-agent.service neutron-dhcp-agent.service \
   neutron-metadata-agent.service neutron-l3-agent.service
 
-systemctl start neutron-server.service \
+systemctl restart neutron-server.service \
   neutron-linuxbridge-agent.service neutron-dhcp-agent.service \
   neutron-metadata-agent.service neutron-l3-agent.service
 ```
