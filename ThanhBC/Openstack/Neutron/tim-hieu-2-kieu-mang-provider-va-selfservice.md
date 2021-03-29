@@ -57,8 +57,31 @@ External network (12) nhận packets.
 ### 4.1 Gói tin đi qua các thành phần Provider.
 ![](ntimg/ovs-provider.png)
 
+1. Máy ảo chuyển gói tin từ interface (1) tới interface của  bridge (2) qua veth pair
+2. Security group rules (3) trên provider bridge sẽ quản lí và giám sát traffic.
+3. VLAN sub-interface port (4) trên provider bridge chuyển gói tin tới physical network interface (5).
+4. Physical network interface (5) gán VLAN tag (101) vào cho packets và chuyển nó tới OVS intergration birdge (6).
+5. Sau đó gói tin  được chuyển qua OVS Provider bridge (7)
+6. Từ tun (8) gói din gửi ênđ card mạng vật lý (9).
+7. Từ card vật lý gói tin được gửi đến switch vật lý (10).8. Switch vật lí bỏ VLAN tag 101 từ packets và chuyển nó tới router (12)
+9. Router định tuyến packets từ provider network (8) sang external network (9) và chuyển nó tới switch (10)
+10. Switch chuyển tiếp packet tới external network (11)
+External network (12) nhận packets.
+
 ### 4.2 Gói tin đi qua các thành phần sefl-service.
 ![](ntimg/ovs-self.png)
+
+
+1. Máy ảo chuyển gói tin từ interface (1) tới interface của  bridge (2) qua veth pair
+2. Security group rules (3) trên provider bridge sẽ quản lí và giám sát traffic.
+3. VLAN sub-interface port (4) trên provider bridge chuyển gói tin tới physical network interface (5).
+4. Physical network interface (5) gán VLAN tag (101) vào cho packets và chuyển nó tới OVS intergration birdge (6).
+5. Sau đó gói tin  được chuyển qua OVS Provider bridge (7)
+6. Từ tun (8) gói din gửi ênđ card mạng vật lý (9).
+7. Từ card vật lý gói tin được gửi đến switch vật lý (10).8. Switch vật lí bỏ VLAN tag 101 từ packets và chuyển nó tới router (12)
+9. Router định tuyến packets từ provider network (8) sang external network (9) và chuyển nó tới switch (10)
+10. Switch chuyển tiếp packet tới external network (11)
+External network (12) nhận packets.
 
 
 # Tham khảo.
