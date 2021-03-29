@@ -4,10 +4,10 @@
 - Provider network
 
   ``` sh
-  openstack network create --share --provider-physical-network <tên provider nw> \
-  --provider-network-type <kiểu network> <tên-nw>
+  openstack network create --share --provider-physical-network <tên provider network> \
+  --provider-network-type <kiểu network> <tên-network>
   ```
-- self-service network
+- Self-service network
 
   ```
   openstack network create <tên network
@@ -54,9 +54,7 @@ neutron router-gateway-set <tên router> <tên mạng gán vào gateway>
 ## 5. Tạo mới subnet
 
 ``` sh
-openstack subnet create --subnet-range 172.16.1.0/24 --gateway 172.16.1.1 \
-  --network provider --allocation-pool start=172.16.1.242,end=172.16.1.250 \
-  --dns-nameserver 8.8.8.8 provider
+openstack subnet create --subnet-range 172.16.1.0/24 --gateway 172.16.1.1 --network provider --allocation-pool start=172.16.1.242,end=172.16.1.250 --dns-nameserver 8.8.8.8 provider
 ```
 
 
@@ -77,7 +75,7 @@ openstack ip floating create <network>
 - Hiển thị danh sách các floating ip
 
 ```
-openstack ip floating list
+openstack floating ip  list
 ```
 ![](ntimg/nt-float.png)
 - Gán floating ip vào server
