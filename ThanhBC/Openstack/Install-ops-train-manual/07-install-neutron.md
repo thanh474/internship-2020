@@ -29,13 +29,13 @@ openstack service create --name neutron \
 Tạo các endpoint.
 ```
 openstack endpoint create --region RegionOne \
-  network public http://controller:9696/v2.0
+  network public http://controller:9696
 
 openstack endpoint create --region RegionOne \
-  network internal http://controller:9696/v2.0
+  network internal http://controller:9696
 
 openstack endpoint create --region RegionOne \
-  network admin http://controller:9696/v2.0
+  network admin http://controller:9696
 ```
 ![](nt-img/nt-endpoint.png)
 
