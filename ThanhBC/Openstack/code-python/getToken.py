@@ -8,7 +8,7 @@ payload ={ "auth": {
             "user": {
               "name": "admin",
               "domain": { "name": "Default" },
-              "password": "admin"
+              "password": "admisn"
             }
           }
         },
@@ -20,17 +20,15 @@ payload ={ "auth": {
         }
       }
 }
-
-res = requests.post('http://10.5.8.239:5000/v3/auth/token',
-					headers = {'content-type' : 'application/json'},
-					data= json.dumps(payload))
-print (res.headers)
-
-# i = 1
-# while i < 170000:
-#   res = requests.post('http://192.168.122.3:5000/v3/auth/token',
+# res = requests.post('http://192.168.53.186:5000/v3/auth/tokens',
 # 					headers = {'content-type' : 'application/json'},
-# 					data= json.dumps(payload));
-  
+# 					data= json.dumps(payload))
+# print (res.headers)
 
-#   i += 1
+i = 1
+while i < 170000:
+  res = requests.post('http://192.168.53.186:5000/v3/auth/tokens',
+					headers = {'content-type' : 'application/json'},
+					data= json.dumps(payload));
+#print (res.headers)
+  i += 1
