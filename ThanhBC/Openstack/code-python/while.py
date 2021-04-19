@@ -1,12 +1,22 @@
 import requests
 import json
 
+
+
+
+def user(num):
+      with  open ('user.txt','r') as file:
+        for line in file:
+              for word in file:
+                    print(word.num)
+
+      
 payload ={ "auth": {
     "identity": {
         "methods": ["password"],
         "password": {
             "user": {
-              "name": "admin",
+              "name": "user",
               "domain": { "name": "Default" },
               "password": "admiqn"
             }
@@ -20,6 +30,11 @@ payload ={ "auth": {
         }
       }
 }
+
+print (payload['auth'])
+
+
+print (user())
 # res = requests.post('http://192.168.53.186:5000/v3/auth/tokens',
 # 					headers = {'content-type' : 'application/json'},
 # 					data= json.dumps(payload))
