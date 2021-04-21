@@ -28,6 +28,7 @@ Giống với `nova-scheduler`, cinder cũng có một daemon chịu trách nhi�
 
 Bạn sẽ buộc phải kích hoạt tùy chọn `filter_scheduler` để sử dụng multiple-storage back ends.
 
+![](cdimg/filer-weighting.png)
 <a name="filter"></a>
 ## 2. Cinder Scheduler Filters
 
@@ -51,7 +52,7 @@ Bạn sẽ buộc phải kích hoạt tùy chọn `filter_scheduler` để sử 
 
 Goodness rating:
 
-``` sh
+``` 
 0 -- host is a poor choice
 .
 .
