@@ -203,8 +203,8 @@ Tạo file cấu hình `/etc/sysconfig/network-scripts/ifcfg-br-provider` mới
 ONBOOT=yes
 IPADDR=10.10.101.72
 NETMASK=255.255.255.0
-GATEWAY=10.10.101.1
-DNS1=8.8.8.8
+# GATEWAY=10.10.101.1
+# DNS1=8.8.8.8
 DEVICE=br-provider
 NAME=br-provider
 DEVICETYPE=ovs
