@@ -118,7 +118,9 @@ Các rule được xếp theo cá tables nên ta đi phân tích từng tables.
 Tables 0:
 ```
 cookie=0xb8a2003da27c5399, duration=62393.417s, table=0, n_packets=821, n_bytes=48596, priority=1,in_port="patch-int" actions=resubmit(,2)
+
  cookie=0xb8a2003da27c5399, duration=46977.586s, table=0, n_packets=85, n_bytes=9526, priority=1,in_port="vxlan-0a0a6591" actions=resubmit(,4)
+ 
  cookie=0xb8a2003da27c5399, duration=62393.415s, table=0, n_packets=0, n_bytes=0, priority=0 actions=drop
 ```
 Giải thích.
@@ -131,7 +133,9 @@ Giải thích.
 
 
 Tables 2:
-```cookie=0xb8a2003da27c5399, duration=62393.413s, table=2, n_packets=216, n_bytes=19404, priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,20)
+```
+cookie=0xb8a2003da27c5399, duration=62393.413s, table=2, n_packets=216, n_bytes=19404, priority=0,dl_dst=00:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,20)
+
  cookie=0xb8a2003da27c5399, duration=62393.410s, table=2, n_packets=605, n_bytes=29192, priority=0,dl_dst=01:00:00:00:00:00/01:00:00:00:00:00 actions=resubmit(,22)
 ```
 Giải thích.
