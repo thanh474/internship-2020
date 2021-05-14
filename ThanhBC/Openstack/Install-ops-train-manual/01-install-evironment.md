@@ -126,6 +126,12 @@ rpm --import https://www.rabbitmq.com/rabbitmq-release-signing-key.asc
 yum install rabbitmq-server-3.8.14-1.el7.noarch.rpm
 ```
 Tắt firewalld và selinux
+```
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+
+systemctl stop firewalld
+systemctl disable firewalld
+```
 
 Tiếp đến enable và start dịch vụ.
 ```
